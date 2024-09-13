@@ -1,0 +1,35 @@
+def Report(y_test,y_pred):
+    print('-------------------')
+    print('Jupyter Results : ')
+    from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+    
+    # Assuming y_test is the true labels and y_pred is the predicted labels from your model
+    # y_test = [...]
+    # y_pred = [...]
+    
+    # Get Accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Accuracy: {accuracy:.2f}")
+    
+    # Get Classification Report (Precision, Recall, F1-Score)
+    report = classification_report(y_test, y_pred, output_dict=True)
+    #print(f"Classification Report:\n{classification_report(y_test, y_pred)}")
+    
+    # Extract F1-score, Precision, and Recall from the report
+    precision = report['1']['precision']  # For positive class (1)
+    recall = report['1']['recall']        # Sensitivity/Recall for positive class
+    f1_score = report['1']['f1-score']    # F1-score for positive class
+    print(f"Precision: {precision:.2f}")
+    print(f"Recall (Sensitivity): {recall:.2f}")
+    print(f"F1-Score: {f1_score:.2f}")
+    
+    # Calculate Confusion Matrix to get Specificity
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    tn, fp, fn, tp = conf_matrix.ravel()  # Get true negatives (tn), false positives (fp), false negatives (fn), true positives (tp)
+    
+    # Calculate Specificity: tn / (tn + fp)
+    specificity = tn / (tn + fp)
+    print(f"Specificity: {specificity:.2f}")
+    print('NOTE : other Results for class 1')
+    print('-------------------')
+    
